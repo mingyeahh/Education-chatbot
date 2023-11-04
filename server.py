@@ -28,7 +28,7 @@ def require_body_parameters(request, params):
 def get_user_data(request):
     username = request.json["username"]
     user_file = data_dir / f"{username}.json"
-    if not user_file.exists: return None
+    if not user_file.exists(): return None
     with open(user_file, "r") as f:
         d = json.load(f)
     return d
@@ -36,7 +36,7 @@ def get_user_data(request):
 def save_user_data(request, user_data):
     username = request.json["username"]
     user_file = data_dir / f"{username}.json"
-    if not user_file.exists: return None
+    if not user_file.exists(): return None
     with open(user_file, "w") as f:
         json.dump(user_data, f)
 
@@ -75,3 +75,27 @@ def topic():
         user_data[topic] = {subtopic: {} for subtopic in subtopics}
         save_user_data(request, user_data)
     return list(user_data[topic].keys()), OK, CONTENT_JSON
+
+@app.route("/subtopic", methods=["POST"])
+def subtopic():
+    valid, reason = require_body_parameters(request, ["username", "topic", "subtopic"])
+    if not valid:
+        return reason, INVALID, CONTENT_PLAIN
+    
+    user_data = get_user_data(request)
+    if user_data is None:
+        return "User not registered", NOT_FOUND, CONTENT_PLAIN
+    
+    topic = request.json["topic"]
+    if not topic in user_data:
+        return "Topic not found", NOT_FOUND, CONTENT_PLAIN
+
+    subtopic = request.json["subtopic"]
+    if not subtopic in user_data[topic]:
+        return "Subtopic not found", NOT_FOUND, CONTENT_PLAIN
+
+    if not "conversation" in user_data[topic][subtopic]:
+        first_message = model.query_subtopic_start(subtopic, topic=topic)
+        user_data[topic][subtopic] = {"conversation": [first_message]}
+        save_user_data(request, user_data)
+    return user_data[topic][subtopic]["conversation"], OK, CONTENT_JSON
