@@ -5,6 +5,7 @@ summary_prompt = 'summarise the following dialogue in detail for at least 30 wor
 comb_prompt = "The user and the teacher previously talked about {} They also talked about {}\nPlease summarise the given information above in detail but less than 200 words. Then give a list of topic they've talked about. Example topics discussed can be equations, history facts, etc. "
 top_to_sub_prompt = "give me a bullet point list on: {}"
 lesson_prompt = "You are a teacher, teach me a full lesson on {}, with regards to {}. Ask me a question to test my knowledge at the end"
+standard_prompt = "You are a teacher, we are learning {} with respect to {}, the summary of the past is {} and the last message was {}. The users request is this: {} remember the summary, topic, subtopic, and your role as a teacher"
 
 def top_to_sub(topic):
     n_prompt = top_to_sub_prompt.format(topic)
@@ -49,19 +50,31 @@ def create_summary(conv):
         else:
             old_sum = curr_sum
 
-def send(message):
+def send_message(message, topic, subtopic, data):
+    n_prompt = standard_prompt.format(topic, subtopic, data["summary"])
+    messages = [
+        {"role": "system", "content": n_prompt},
+    ] + data["conversation"][-3:]
+    return send(message, past_messages=messages)
+    
+def send(message, past_messages=None):
     openai.api_base = "http://localhost:1234/v1" # point to the local server
     openai.api_key = "" # no need for an API key
+    messages = []
+    if type(message) == str:
+        message = {"role": "user", "content": message}
+    if past_messages is not None:
+        messages += past_messages
+    messages += [message]
 
     completion = openai.ChatCompletion.create(
     model="local-model", # this field is currently unused
-    messages=[
-        {"role": "user", "content": message}
-    ],
+    messages=messages,
     temperature = 0.1,
     top_p = 0.5
     )
 
-    print(completion.choices[0].message)
+    return completion.choices[0].message
 
-create_summary(["User: hello, my name is josh", "AI: hi josh, my name is chatgpt", "User: nice to meet you chat gpt, i hope we have good conversations"])
+#create_summary(["User: hello, my name is josh", "AI: hi josh, my name is chatgpt", "User: nice to meet you chat gpt, i hope we have good conversations"])
+top_to_sub("linear algebra")
