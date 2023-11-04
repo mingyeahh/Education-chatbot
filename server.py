@@ -99,3 +99,31 @@ def subtopic():
         user_data[topic][subtopic] = {"conversation": [first_message]}
         save_user_data(request, user_data)
     return user_data[topic][subtopic]["conversation"], OK, CONTENT_JSON
+
+@app.route("/message", methods=["POST"])
+def message():
+    valid, reason = require_body_parameters(request, ["username", "topic", "subtopic", "message"])
+    if not valid:
+        return reason, INVALID, CONTENT_PLAIN
+    
+    user_data = get_user_data(request)
+    if user_data is None:
+        return "User not registered", NOT_FOUND, CONTENT_PLAIN
+    
+    topic = request.json["topic"]
+    if not topic in user_data:
+        return "Topic not found", NOT_FOUND, CONTENT_PLAIN
+
+    subtopic = request.json["subtopic"]
+    if not subtopic in user_data[topic]:
+        return "Subtopic not found", NOT_FOUND, CONTENT_PLAIN
+
+    if not "conversation" in user_data[topic][subtopic]:
+        return "Conversation does not exist", NOT_FOUND, CONTENT_PLAIN
+    
+    message_content = request.json["message"]
+    user_message = model.user_content_to_message(message_content)
+    bot_message = model.send_message(user_message, topic=topic, subtopic=subtopic, data=user_data[topic][subtopic])
+    user_data[topic][subtopic]["conversation"].extend([user_message, bot_message])
+    save_user_data(request, user_data)
+    return bot_message, OK, CONTENT_JSON
