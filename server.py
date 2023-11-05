@@ -71,7 +71,7 @@ def topics():
     valid, reason = require_body_parameters(request, ["username"])
     if not valid:
         return reason, INVALID, CONTENT_PLAIN
-    
+
     user_data = get_user_data(request)
     if user_data is None:
         return "User not registered", NOT_FOUND, CONTENT_PLAIN
@@ -138,9 +138,7 @@ def subtopic():
 
 @app.route("/message", methods=["POST"])
 def message():
-    valid, reason = require_body_parameters(
-        request, ["username", "topic", "subtopic", "message"]
-    )
+    valid, reason = require_body_parameters(request, ["username", "topic", "subtopic", "message"])
     if not valid:
         return reason, INVALID, CONTENT_PLAIN
 

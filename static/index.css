@@ -1,0 +1,41 @@
+#window {
+    box-sizing: border-box;
+    height: 80vh;
+    margin-top: 10vh;
+    width: 80vw;
+    border: 5px;
+    border-radius: 10px;
+    border-color: #EEEEEE;
+    border-style: solid;
+    text-align: center;
+}
+
+#index-header {
+    margin-top: 20vh;
+    font-size: 3.5vw;
+}
+
+#index-form {
+    margin: auto;
+    margin-top: 5vh;
+    max-width: 25vw;
+    text-align: center;
+}
+
+.text-left {
+    text-align: left;
+}
+
+#subtitle {
+    column-rule: 4px double #ff00ff;
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show>.nav-link {
+    background-color: #7F56D9;
+}
+
+.nav-pills .nav-link,
+.nav-pills .show>.nav-link {
+    color: #7F56D9;
+}
