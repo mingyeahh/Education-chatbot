@@ -13,13 +13,12 @@
 <body onload="setupClassroom()">
     <div class="container" id="window">
         <div class="row full-height">
-            <div class="col-4 border-end full-height" id="subtitle">
-                <button type="button" class="btn btn-outline-secondary" disabled>Subtopics</button>
+            <div class="col-12 border-end full-height" id="subtitle">
+                <button type="button" class="btn btn-outline-secondary" id="left-header" disabled>Topic: <span id="topic"></span></button>
                 <div id="subtopic-display" class="text-left"></div>
             </div>
-            <div class="col-8 full-height" id="chatting-box">
-                <button type="button" class="btn btn-outline-secondary" disabled>Topic: <span
-                        id="topic"></span></button>
+            <div class="col-8 full-height hidden" id="chatting-box">
+                <button type="button" class="btn btn-outline-secondary" id="right-header" disabled>blank</button>
                 <div id="conversation">
                 </div>
                 <form id="message-form" onsubmit="sendMessage(event)">

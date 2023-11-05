@@ -110,11 +110,28 @@ function messageToHTML(role, content) {
 }
 
 function sendChosenSubtopic(subtopic, button) {
+    if (button.classList.contains("active")) {
+        button.classList.remove("active");
+        document.getElementById("subtitle").classList.add("col-12");
+        document.getElementById("subtitle").classList.remove("col-4");
+        document.getElementById("chatting-box").classList.add("hidden");
+        document.getElementById("right-header").innerText = "blank";
+        document.getElementById("left-header").innerHTML = "Topic: <span id='topic'></span>";
+        document.getElementById("topic").innerText = localStorage.getItem("topic");
+        localStorage.removeItem("subtopic");
+        return;
+    }
     let username = localStorage.getItem("username");
     let topic = localStorage.getItem("topic");
     document.getElementById("conversation").innerHTML = "<div class='loading'>Loading...</div>"
     document.getElementById("input-message").disabled = true;
     document.getElementById("send-button").disabled = true;
+    document.getElementById("subtitle").classList.remove("col-12");
+    document.getElementById("subtitle").classList.add("col-4");
+    document.getElementById("chatting-box").classList.remove("hidden");
+    document.getElementById("left-header").innerText = "Subtopics";
+    document.getElementById("right-header").innerHTML = "Topic: <span id='topic'></span>";
+    document.getElementById("topic").innerText = topic;
     Array.from(document.getElementsByClassName("subtopic-button")).forEach(element => {
         element.classList.remove("active");
     });
