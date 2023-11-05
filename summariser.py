@@ -5,7 +5,7 @@ summary_prompt = 'summarise the following dialogue in detail for at least 30 wor
 comb_prompt = "The user and the teacher previously talked about {} They also talked about {}\nPlease summarise the given information above in detail but less than 200 words. Then give a list of topic they've talked about. Example topics discussed can be equations, history facts, etc. "
 top_to_sub_prompt = "give me a numbered list of subtopics related to: {}"
 lesson_prompt = "You are a teacher, teach me a full lesson on {}, with regards to {}. Ask me a question to test my knowledge at the end"
-standard_prompt = "You are a teacher, we are learning {} with respect to {}, the summary of the past is {} and the last message was {}. The users request is this: {} remember the summary, topic, subtopic, and your role as a teacher"
+standard_prompt = "You are a teacher, we are learning {} with respect to {}. {} Remember the summary, topic, subtopic, and your role as a teacher"
 
 def top_to_sub(topic):
     n_prompt = top_to_sub_prompt.format(topic)
@@ -51,7 +51,8 @@ def create_summary(conv):
             old_sum = curr_sum
 
 def send_message(message, topic, subtopic, data):
-    n_prompt = standard_prompt.format(topic, subtopic, data["summary"])
+    summary = ("The summary of the past is " + data["summary"]) if "summary" in data else ""
+    n_prompt = standard_prompt.format(topic, subtopic, summary)
     messages = [
         {"role": "system", "content": n_prompt},
     ] + data["conversation"][-3:]
@@ -75,6 +76,3 @@ def send(message, past_messages=None):
     )
 
     return completion.choices[0].message
-
-#create_summary(["User: hello, my name is josh", "AI: hi josh, my name is chatgpt", "User: nice to meet you chat gpt, i hope we have good conversations"])
-top_to_sub("linear algebra")
