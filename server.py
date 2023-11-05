@@ -93,6 +93,21 @@ def topic():
         subtopics = model.query_topic(topic)
         user_data[topic] = {subtopic: {} for subtopic in subtopics}
         save_user_data(request, user_data)
+    return {}, OK, CONTENT_JSON
+
+
+@app.route("/subtopics", methods=["POST"])
+def subtopics():
+    valid, reason = require_body_parameters(request, ["username", "topic"])
+    if not valid:
+        return reason, INVALID, CONTENT_PLAIN
+
+    user_data = get_user_data(request)
+    if user_data is None:
+        return "User not registered", NOT_FOUND, CONTENT_PLAIN
+    topic = request.json["topic"]
+    if not topic in user_data:
+        return "Topic not found", NOT_FOUND, CONTENT_PLAIN
     return list(user_data[topic].keys()), OK, CONTENT_JSON
 
 
