@@ -1,13 +1,13 @@
 import summariser
 import re
 
-SUBTOPIC_REGEX = re.compile(r"(?:- )|(?:\d\. )")
+SUBTOPIC_REGEX = re.compile(r"• |- |\d\. ")
 
 
 def query_topic(topic, **kwargs):
     response_content = summariser.top_to_sub(topic)["content"]
     subtopics = [
-        line for line in response_content.split("\n") if SUBTOPIC_REGEX.match(line)
+        line.partition(" ")[2] for line in response_content.split("\n") if SUBTOPIC_REGEX.match(line)
     ]
     return subtopics
 

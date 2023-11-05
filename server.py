@@ -62,7 +62,19 @@ def login():
         username = request.json["username"]
         with open(data_dir / f"{username}.json", "w") as f:
             f.write("{}")
-        return [], CREATED, CONTENT_JSON
+        return {}, CREATED, CONTENT_JSON
+    return {}, OK, CONTENT_JSON
+
+
+@app.route("/topics", methods=["POST"])
+def topics():
+    valid, reason = require_body_parameters(request, ["username"])
+    if not valid:
+        return reason, INVALID, CONTENT_PLAIN
+    
+    user_data = get_user_data(request)
+    if user_data is None:
+        return "User not registered", NOT_FOUND, CONTENT_PLAIN
     return list(user_data.keys()), OK, CONTENT_JSON
 
 
