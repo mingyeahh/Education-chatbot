@@ -88,10 +88,11 @@ function setupClassroom() {
         subtopics.forEach((subtopic, i) => {
             let button = document.createElement("button");
             button.setAttribute("type", "button");
+            button.classList.add("subtopic-button");
             button.innerText = `${i + 1}. ${subtopic}`;
             let br = document.createElement("br");
             document.getElementById("subtopic-display").append(button, br);
-            button.addEventListener("click", () => sendChosenSubtopic(subtopic));
+            button.addEventListener("click", () => sendChosenSubtopic(subtopic, button));
         });
     });
 }
@@ -108,12 +109,15 @@ function messageToHTML(role, content) {
     return [newRole, newContent];
 }
 
-function sendChosenSubtopic(subtopic) {
+function sendChosenSubtopic(subtopic, button) {
     let username = localStorage.getItem("username");
     let topic = localStorage.getItem("topic");
     document.getElementById("conversation").innerHTML = "<div class='loading'>Loading...</div>"
     document.getElementById("input-message").disabled = true;
     document.getElementById("send-button").disabled = true;
+    Array.from(document.getElementsByClassName("subtopic-button")).forEach(element => {
+        element.classList.remove("active");
+    });
     fetch("/subtopic", {
         method: 'POST',
         body: JSON.stringify({ username: username, topic: topic, subtopic: subtopic }),
@@ -138,6 +142,7 @@ function sendChosenSubtopic(subtopic) {
         });
         document.getElementById("input-message").disabled = false;
         document.getElementById("send-button").disabled = false;
+        button.classList.add("active");
         localStorage.setItem("subtopic", subtopic);
     });
 }
