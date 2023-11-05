@@ -10,6 +10,22 @@
     text-align: center;
 }
 
+#window-with-header {
+    box-sizing: border-box;
+    height: 80vh;
+    margin-top: 2vh;
+    width: 80vw;
+    border: 5px;
+    border-radius: 10px;
+    border-color: #EEEEEE;
+    border-style: solid;
+    text-align: center;
+}
+
+#header {
+    margin-top: 3vh;
+}
+
 #index-header {
     margin-top: 20vh;
     font-size: 3.5vw;
@@ -94,4 +110,15 @@
     background-color: #7F56D9;
     color: white;
     border-top-right-radius: 0;
+}
+
+#back-btn {
+    border-color: #6941C6;
+    margin: auto;
+}
+
+#back-btn-col {
+    position: absolute;
+    margin-top: 15px;
+    margin-left: 15px;
 }
