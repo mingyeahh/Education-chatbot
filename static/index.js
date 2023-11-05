@@ -88,10 +88,11 @@ function setupClassroom() {
         subtopics.forEach((subtopic, i) => {
             let button = document.createElement("button");
             button.setAttribute("type", "button");
+            button.classList.add("subtopic-button");
             button.innerText = `${i + 1}. ${subtopic}`;
             let br = document.createElement("br");
             document.getElementById("subtopic-display").append(button, br);
-            button.addEventListener("click", () => sendChosenSubtopic(subtopic));
+            button.addEventListener("click", () => sendChosenSubtopic(subtopic, button));
         });
     });
 }
@@ -108,12 +109,32 @@ function messageToHTML(role, content) {
     return [newRole, newContent];
 }
 
-function sendChosenSubtopic(subtopic) {
+function sendChosenSubtopic(subtopic, button) {
+    if (button.classList.contains("active")) {
+        button.classList.remove("active");
+        document.getElementById("subtitle").classList.add("col-12");
+        document.getElementById("subtitle").classList.remove("col-4");
+        document.getElementById("chatting-box").classList.add("hidden");
+        document.getElementById("right-header").innerText = "blank";
+        document.getElementById("left-header").innerHTML = "Topic: <span id='topic'></span>";
+        document.getElementById("topic").innerText = localStorage.getItem("topic");
+        localStorage.removeItem("subtopic");
+        return;
+    }
     let username = localStorage.getItem("username");
     let topic = localStorage.getItem("topic");
     document.getElementById("conversation").innerHTML = "<div class='loading'>Loading...</div>"
     document.getElementById("input-message").disabled = true;
     document.getElementById("send-button").disabled = true;
+    document.getElementById("subtitle").classList.remove("col-12");
+    document.getElementById("subtitle").classList.add("col-4");
+    document.getElementById("chatting-box").classList.remove("hidden");
+    document.getElementById("left-header").innerText = "Subtopics";
+    document.getElementById("right-header").innerHTML = "Topic: <span id='topic'></span>";
+    document.getElementById("topic").innerText = topic;
+    Array.from(document.getElementsByClassName("subtopic-button")).forEach(element => {
+        element.classList.remove("active");
+    });
     fetch("/subtopic", {
         method: 'POST',
         body: JSON.stringify({ username: username, topic: topic, subtopic: subtopic }),
@@ -138,6 +159,7 @@ function sendChosenSubtopic(subtopic) {
         });
         document.getElementById("input-message").disabled = false;
         document.getElementById("send-button").disabled = false;
+        button.classList.add("active");
         localStorage.setItem("subtopic", subtopic);
     });
 }

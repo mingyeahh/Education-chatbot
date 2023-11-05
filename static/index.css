@@ -69,17 +69,27 @@
     margin-bottom: 3vh;
 }
 
-#subtopic-display>button {
+.hidden {display: none;}
+
+.subtopic-button {
     background-color: #F9F5FF;
     color: #6941C6;
     margin-top: 10px;
     display: inline-block;
     padding: 1px 6px;
     max-width: 100%;
-    white-space: nowrap;
-    overflow: hidden;
     border-radius: 5px;
     border: none;
+}
+
+.col-4 .subtopic-button {
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.subtopic-button.active {
+    background-color: #6941C6;
+    color: #F9F5FF;
 }
 
 #conversation {
