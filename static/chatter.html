@@ -11,8 +11,25 @@
 </head>
 
 <body onload="setupClassroom()">
-    <div class="container" id="window">
-        <div class="row full-height">
+    <div class="col container" id="header">
+        <div class="row">
+            <div class="col container">
+                <div id="back-btn-col"><a type="button" class="btn" id="back-btn" href="/topic.html">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="1em"
+                            viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                            <path fill="#6941C6"
+                                d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" />
+                        </svg> Back
+                    </a></div>
+
+            </div>
+            <div class="col container">
+                <h1>Education Chatbot</h1>
+            </div>
+
+        </div>
+        <div class="container row" id="window-with-header">
+            <div class="row full-height">
             <div class="col-12 border-end full-height" id="subtitle">
                 <button type="button" class="btn btn-outline-secondary" id="left-header" disabled>Topic: <span id="topic"></span></button>
                 <div id="subtopic-display" class="text-left"></div>
@@ -21,19 +38,25 @@
                 <button type="button" class="btn btn-outline-secondary" id="right-header" disabled>blank</button>
                 <div id="conversation">
                 </div>
-                <form id="message-form" onsubmit="sendMessage(event)">
-                    <div class="input-group mb-3 mt-3">
-                        <input type="text" class="form-control" id="input-message" placeholder="Type a message..."
-                            aria-label="Message" aria-describedby="basic-addon1" disabled>
-                        <button type="submit" class="btn btn-primary" style="background-color: #7F56D9;"
-                            id="send-button" disabled>
-                            <svg xmlns="http://www.w3.org/2000/svg" height="1em"
-                                viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                                <path fill="white"
-                                    d="M16.1 260.2c-22.6 12.9-20.5 47.3 3.6 57.3L160 376V479.3c0 18.1 14.6 32.7 32.7 32.7c9.7 0 18.9-4.3 25.1-11.8l62-74.3 123.9 51.6c18.9 7.9 40.8-4.5 43.9-24.7l64-416c1.9-12.1-3.4-24.3-13.5-31.2s-23.3-7.5-34-1.4l-448 256zm52.1 25.5L409.7 90.6 190.1 336l1.2 1L68.2 285.7zM403.3 425.4L236.7 355.9 450.8 116.6 403.3 425.4z" />
-                            </svg></button>
+                <div class="col-8 full-height" id="chatting-box">
+                    <button type="button" class="btn btn-outline-secondary" disabled>Topic: <span
+                            id="topic"></span></button>
+                    <div id="conversation">
                     </div>
-                </form>
+                    <form id="message-form" onsubmit="sendMessage(event)">
+                        <div class="input-group mb-3 mt-3">
+                            <input type="text" class="form-control" id="input-message" placeholder="Type a message..."
+                                aria-label="Message" aria-describedby="basic-addon1" disabled>
+                            <button type="submit" class="btn btn-primary" style="background-color: #7F56D9;"
+                                id="send-button" disabled>
+                                <svg xmlns="http://www.w3.org/2000/svg" height="1em"
+                                    viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                    <path fill="white"
+                                        d="M16.1 260.2c-22.6 12.9-20.5 47.3 3.6 57.3L160 376V479.3c0 18.1 14.6 32.7 32.7 32.7c9.7 0 18.9-4.3 25.1-11.8l62-74.3 123.9 51.6c18.9 7.9 40.8-4.5 43.9-24.7l64-416c1.9-12.1-3.4-24.3-13.5-31.2s-23.3-7.5-34-1.4l-448 256zm52.1 25.5L409.7 90.6 190.1 336l1.2 1L68.2 285.7zM403.3 425.4L236.7 355.9 450.8 116.6 403.3 425.4z" />
+                                </svg></button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
