@@ -39,3 +39,59 @@
 .nav-pills .show>.nav-link {
     color: #7F56D9;
 }
+
+.full-height {
+    height: 100%;
+}
+
+.btn-outline-secondary,
+.btn-outline-secondary:disabled {
+    margin-top: 3vh;
+    font-size: large;
+    font-weight: bold;
+    color: black;
+    margin-bottom: 3vh;
+}
+
+#subtopic-display>button {
+    background-color: #F9F5FF;
+    color: #6941C6;
+    margin-top: 10px;
+    display: inline-block;
+    padding: 1px 6px;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    border-radius: 5px;
+    border: none;
+}
+
+#conversation {
+    height: 60vh;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.role {
+    text-align: left;
+    padding-left: 4px;
+    font-size: small;
+}
+
+.content {
+    text-align: left;
+    border-radius: 5px;
+    padding: 2px 8px;
+    margin-bottom: 3px;
+}
+
+.assistant.content {
+    background-color: #F2F4F7;
+    border-top-left-radius: 0;
+}
+
+.human.content {
+    background-color: #7F56D9;
+    color: white;
+    border-top-right-radius: 0;
+}
