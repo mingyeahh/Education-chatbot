@@ -3,7 +3,7 @@ import openai
 
 summary_prompt = 'summarise the following dialogue in detail for at least 30 words, but no more than 60 words {}. Now give a list of topics of what the user and the assistant talked about. Example topics discussed can be equations, history facts, introductions etc. ' 
 comb_prompt = "The user and the teacher previously talked about {} They also talked about {}\nPlease summarise the given information above in detail but less than 200 words. Then give a list of topic they've talked about. Example topics discussed can be equations, history facts, etc. "
-top_to_sub_prompt = "give me a bullet point list on: {}"
+top_to_sub_prompt = "give me a numbered list of subtopics related to: {}"
 lesson_prompt = "You are a teacher, teach me a full lesson on {}, with regards to {}. Ask me a question to test my knowledge at the end"
 standard_prompt = "You are a teacher, we are learning {} with respect to {}, the summary of the past is {} and the last message was {}. The users request is this: {} remember the summary, topic, subtopic, and your role as a teacher"
 
