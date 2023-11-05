@@ -6,6 +6,7 @@ comb_prompt = "The user and the teacher previously talked about {} They also tal
 top_to_sub_prompt = "give me a numbered list of subtopics related to: {}"
 lesson_prompt = "You are a teacher, teach me a full lesson on {}, with regards to {}. Ask me a question to test my knowledge at the end"
 standard_prompt = "You are a teacher, we are learning {} with respect to {}. {} Remember the summary, topic, subtopic, and your role as a teacher"
+SUMMARY_AMOUNT = 1000
 
 
 def top_to_sub(topic):
@@ -24,8 +25,8 @@ def summarise(B):
     return send(n_prompt)
 
 
-def combine(A, B):
-    n_prompt = comb_prompt.format(B, A)
+def combine(new, old):
+    n_prompt = comb_prompt.format(old, new)
     return send(n_prompt)
 
 
@@ -58,13 +59,32 @@ def create_summary(conv):
 
 
 def send_message(message, topic, subtopic, data):
-    summary = ("The summary of the past is " + data["summary"]) if "summary" in data else ""
+    summary = ("The summary of the past is " + data["summary"]) if data["summary"] is not None else ""
     n_prompt = standard_prompt.format(topic, subtopic, summary)
+    summ_form = []
+    size = 0
+    i = data["summ_index"] if "summ_index" in data else 0
+    the_summary = None
+    the_increment = None
+    for msg in data["conversation"][i:]:
+        comb_msg = "{}: {}".format(msg["role"], msg["content"])
+        summ_form.append(comb_msg)
+        size += len(comb_msg)
+        if size >= SUMMARY_AMOUNT:
+            if the_summary is not None:
+                comb_summ = combine(the_summary, data["summary"])
+                data["summary"] = comb_summ
+                data["summ_index"] += the_increment
+            the_summary = summarise(summ_form)
+            the_increment = len(summ_form)
+            summ_form = []
+            size = 0
+    data["next_summary"] = the_summary
     messages = [
         {"role": "system", "content": n_prompt},
     ] + data[
         "conversation"
-    ][-3:]
+    ][data["summ_index"]:]
     return send(message, past_messages=messages)
 
 

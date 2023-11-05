@@ -131,7 +131,7 @@ def subtopic():
 
     if not "conversation" in user_data[topic][subtopic]:
         first_message = model.query_subtopic_start(subtopic, topic=topic)
-        user_data[topic][subtopic] = {"conversation": [first_message]}
+        user_data[topic][subtopic] = {"conversation": [first_message], "summary": None, "summ_index": 0, "next_summary": None}
         save_user_data(request, user_data)
     return user_data[topic][subtopic]["conversation"], OK, CONTENT_JSON
 

@@ -214,5 +214,6 @@ function sendMessage(e) {
         conversationDiv.append(...newElemsUser, ...newElemsAsst);
         document.getElementById("input-message").disabled = false;
         document.getElementById("send-button").disabled = false;
+        document.getElementById("message-form").reset();
     });
 }
